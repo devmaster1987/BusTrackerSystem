@@ -1,0 +1,872 @@
+/* ============================================
+   PASSENGER APP STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-blue: #0f4c81;
+    --primary-green: #1a7a5a;
+    --primary-gradient: linear-gradient(135deg, #0f4c81 0%, #1a7a5a 100%);
+    --accent-green: #2ecc71;
+    --text-dark: #1a1a2e;
+    --text-gray: #6b7280;
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+    --border-radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ============================================
+   APP CONTAINER - Mobile First
+   ============================================ */
+.app-container {
+    max-width: 430px;
+    width: 100%;
+    height: 900px;
+    background: var(--bg-light);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+.status-bar {
+    padding: 12px 24px 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    background: white;
+}
+
+.status-icons {
+    display: flex;
+    gap: 6px;
+    font-size: 12px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.app-header {
+    background: var(--primary-gradient);
+    padding: 16px 24px 24px;
+    border-radius: 0 0 30px 30px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.greeting {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.user-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    gap: 12px;
+}
+
+.search-bar {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition);
+}
+
+.search-bar:focus-within {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.search-bar i {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+    font-size: 14px;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.filter-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 16px;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.app-main {
+    flex: 1;
+    padding: 20px 24px 80px;
+    overflow-y: auto;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.quick-action {
+    background: white;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.quick-action:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.quick-action:active {
+    transform: scale(0.95);
+}
+
+.qa-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(26, 122, 90, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+    color: var(--primary-green);
+    font-size: 16px;
+}
+
+.quick-action span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.see-all {
+    background: none;
+    border: none;
+    color: var(--primary-green);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.see-all:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   BUS LIST
+   ============================================ */
+.bus-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bus-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.bus-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(26, 122, 90, 0.2);
+}
+
+.bus-card:active {
+    transform: scale(0.98);
+}
+
+.bus-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.bus-info {
+    flex: 1;
+}
+
+.bus-name-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.bus-name-badge h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.bus-type {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.bus-type.government {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.bus-type.private {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.bus-type.intercity {
+    background: #f3e8ff;
+    color: #7c3aed;
+}
+
+.bus-route-text {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-bottom: 6px;
+}
+
+.bus-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.bus-meta .arrival {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+.bus-fare {
+    font-weight: 700;
+    color: var(--primary-green);
+    font-size: 15px;
+}
+
+.bus-card-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.bus-icon-small {
+    width: 44px;
+    height: 44px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    font-size: 18px;
+}
+
+.passenger-count {
+    font-size: 11px;
+    color: var(--text-gray);
+}
+
+.bus-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.bus-stops {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-gray);
+}
+
+.bus-stops i {
+    font-size: 11px;
+}
+
+.track-btn {
+    background: none;
+    border: none;
+    color: var(--primary-green);
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.track-btn:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   BOTTOM NAVIGATION
+   ============================================ */
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 8px 0 20px;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-gray);
+    font-size: 12px;
+    padding: 4px 16px;
+}
+
+.nav-item i {
+    font-size: 20px;
+    transition: var(--transition);
+}
+
+.nav-item.active {
+    color: var(--primary-green);
+}
+
+.nav-item.active i {
+    transform: translateY(-2px);
+}
+
+.nav-item:hover {
+    color: var(--primary-green);
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content {
+    background: white;
+    border-radius: 24px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    border-radius: 24px 24px 0 0;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f3f4f6;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.modal-close:hover {
+    background: #e5e7eb;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* ============================================
+   BUS DETAIL MODAL
+   ============================================ */
+.detail-bus-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.detail-bus-name {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.detail-bus-type {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.detail-bus-fare {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-green);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.detail-item {
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.detail-item .label {
+    font-size: 11px;
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+.detail-item .value {
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.detail-stops {
+    margin: 20px 0;
+}
+
+.detail-stops h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.stop-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+}
+
+.stop-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-green);
+}
+
+.stop-dot.active {
+    background: var(--primary-green);
+}
+
+.stop-dot.inactive {
+    border-color: #d1d5db;
+}
+
+.stop-name {
+    font-size: 14px;
+}
+
+.stop-name.active {
+    font-weight: 600;
+}
+
+.detail-map {
+    background: #e5e7eb;
+    border-radius: 12px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    font-size: 14px;
+    margin: 16px 0;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 76, 129, 0.3);
+}
+
+/* ============================================
+   BOOKING MODAL
+   ============================================ */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.payment-option:hover {
+    border-color: var(--primary-green);
+}
+
+.payment-option.selected {
+    border-color: var(--primary-green);
+    background: rgba(26, 122, 90, 0.05);
+}
+
+.payment-option-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.payment-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+}
+
+.payment-option .radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.payment-option.selected .radio {
+    border-color: var(--primary-green);
+}
+
+.payment-option.selected .radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--primary-green);
+    border-radius: 50%;
+}
+
+.booking-summary {
+    background: #f9fafb;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 16px 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 14px;
+}
+
+.summary-row.total {
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+    margin-top: 6px;
+}
+
+/* ============================================
+   SUCCESS MODAL
+   ============================================ */
+.success-modal {
+    text-align: center;
+    padding: 32px 24px;
+}
+
+.success-icon {
+    width: 72px;
+    height: 72px;
+    background: #d1fae5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.success-icon i {
+    font-size: 36px;
+    color: var(--primary-green);
+}
+
+.success-modal h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.success-modal p {
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.qr-code {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px dashed #e5e7eb;
+    margin: 20px 0;
+    display: inline-block;
+}
+
+.qr-code i {
+    font-size: 48px;
+    color: var(--text-dark);
+}
+
+.qr-code span {
+    display: block;
+    font-size: 12px;
+    color: var(--text-gray);
+    margin-top: 4px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    
+    .app-container {
+        height: 100vh;
+        max-width: 100%;
+        border-radius: 0;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .app-container {
+        height: 100vh;
+    }
+}

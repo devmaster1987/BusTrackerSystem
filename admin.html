@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusTracker - Admin Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- ============================================
+    ADMIN DASHBOARD
+    ============================================ -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <span class="brand-text">BusTracker</span>
+                <span class="brand-badge">Admin</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-page="buses">
+                    <i class="fas fa-bus"></i>
+                    <span>Bus Management</span>
+                    <span class="nav-badge" id="busCount">45</span>
+                </a>
+                <a href="#" class="nav-link" data-page="drivers">
+                    <i class="fas fa-users-gear"></i>
+                    <span>Driver Management</span>
+                    <span class="nav-badge" id="driverCount">28</span>
+                </a>
+                <a href="#" class="nav-link" data-page="routes">
+                    <i class="fas fa-route"></i>
+                    <span>Route Management</span>
+                    <span class="nav-badge" id="routeCount">12</span>
+                </a>
+                <a href="#" class="nav-link" data-page="tracking">
+                    <i class="fas fa-map"></i>
+                    <span>Live Tracking</span>
+                </a>
+                <a href="#" class="nav-link" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-link" data-page="payments">
+                    <i class="fas fa-wallet"></i>
+                    <span>Payments</span>
+                    <span class="nav-badge" id="paymentCount">156</span>
+                </a>
+                <a href="#" class="nav-link" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search..." id="globalSearch">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notif-badge">8</span>
+                    </button>
+                    <div class="admin-profile">
+                        <div class="profile-avatar">A</div>
+                        <div class="profile-info">
+                            <span class="profile-name">Admin User</span>
+                            <span class="profile-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ============================================
+            PAGE: DASHBOARD
+            ============================================ -->
+            <div class="page-content active" id="page-dashboard">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statTotalBuses">45</span>
+                            <span class="stat-label">Total Buses</span>
+                            <span class="stat-change positive">↑ 12% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statActiveBuses">32</span>
+                            <span class="stat-label">Active Buses</span>
+                            <span class="stat-change positive">↑ 8% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statTotalPassengers">2,847</span>
+                            <span class="stat-label">Total Passengers</span>
+                            <span class="stat-change positive">↑ 23% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statDailyRevenue">Rs.182,400</span>
+                            <span class="stat-label">Daily Revenue</span>
+                            <span class="stat-change positive">↑ 15% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statActiveRoutes">12</span>
+                            <span class="stat-label">Active Routes</span>
+                            <span class="stat-change positive">↑ 3 new this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Passenger Statistics</h3>
+                            <select class="chart-filter">
+                                <option>This Week</option>
+                                <option>This Month</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="passengerChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Revenue Overview</h3>
+                            <select class="chart-filter">
+                                <option>This Week</option>
+                                <option selected>This Month</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3>Recent Bookings</h3>
+                            <button class="view-all">View All</button>
+                        </div>
+                        <div class="activity-list" id="recentBookings">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3>Popular Routes</h3>
+                            <button class="view-all">View All</button>
+                        </div>
+                        <div class="route-list" id="popularRoutes">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: BUS MANAGEMENT
+            ============================================ -->
+            <div class="page-content" id="page-buses">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Bus Management</h2>
+                        <p>Manage all buses in the fleet</p>
+                    </div>
+                    <button class="btn-primary" onclick="openAddBusModal()">
+                        <i class="fas fa-plus"></i> Add Bus
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-bar">
+                    <div class="filter-group">
+                        <select id="busTypeFilter" onchange="filterBuses()">
+                            <option value="all">All Types</option>
+                            <option value="government">Government</option>
+                            <option value="private">Private</option>
+                            <option value="intercity">Intercity</option>
+                        </select>
+                        <select id="busStatusFilter" onchange="filterBuses()">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                    <input type="text" id="busSearch" placeholder="Search buses..." oninput="filterBuses()">
+                </div>
+
+                <!-- Bus Table -->
+                <div class="table-container">
+                    <table class="data-table" id="busTable">
+                        <thead>
+                            <tr>
+                                <th>Bus Name</th>
+                                <th>Type</th>
+                                <th>Route</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Driver</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="busTableBody">
+                            <!-- Rendered by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: DRIVER MANAGEMENT
+            ============================================ -->
+            <div class="page-content" id="page-drivers">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Driver Management</h2>
+                        <p>Manage drivers and assignments</p>
+                    </div>
+                    <button class="btn-primary" onclick="openAddDriverModal()">
+                        <i class="fas fa-plus"></i> Add Driver
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="driverTable">
+                        <thead>
+                            <tr>
+                                <th>Driver ID</th>
+                                <th>Name</th>
+                                <th>Assigned Bus</th>
+                                <th>Route</th>
+                                <th>Status</th>
+                                <th>Trips Today</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="driverTableBody">
+                            <!-- Rendered by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: ROUTE MANAGEMENT
+            ============================================ -->
+            <div class="page-content" id="page-routes">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Route Management</h2>
+                        <p>Manage routes and schedules</p>
+                    </div>
+                    <button class="btn-primary" onclick="openAddRouteModal()">
+                        <i class="fas fa-plus"></i> Create Route
+                    </button>
+                </div>
+
+                <div class="routes-grid" id="routesGrid">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: LIVE TRACKING
+            ============================================ -->
+            <div class="page-content" id="page-tracking">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Live Tracking</h2>
+                        <p>Real-time bus monitoring</p>
+                    </div>
+                    <div class="live-status">
+                        <span class="live-dot"></span>
+                        <span>Live</span>
+                    </div>
+                </div>
+
+                <div class="tracking-grid">
+                    <div class="map-container-large">
+                        <div class="map-placeholder-large">
+                            <i class="fas fa-map"></i>
+                            <h3>Live Map View</h3>
+                            <p>Showing 32 active buses</p>
+                            <div class="map-legend">
+                                <span><span class="legend-dot green"></span> Active</span>
+                                <span><span class="legend-dot orange"></span> In Transit</span>
+                                <span><span class="legend-dot red"></span> Stopped</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tracking-list">
+                        <h3>Active Buses</h3>
+                        <div class="tracking-items" id="trackingItems">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: ANALYTICS
+            ============================================ -->
+            <div class="page-content" id="page-analytics">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Analytics</h2>
+                        <p>Comprehensive platform analytics</p>
+                    </div>
+                    <div class="analytics-filters">
+                        <select>
+                            <option>Last 7 Days</option>
+                            <option selected>Last 30 Days</option>
+                            <option>Last 90 Days</option>
+                            <option>This Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card full">
+                        <h3>Passenger Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Bus Utilization</h3>
+                        <div class="chart-container">
+                            <canvas id="utilizationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Payment Methods</h3>
+                        <div class="chart-container">
+                            <canvas id="paymentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: PAYMENTS
+            ============================================ -->
+            <div class="page-content" id="page-payments">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Payments & Transactions</h2>
+                        <p>Manage all financial transactions</p>
+                    </div>
+                    <div class="payment-summary">
+                        <span>Today: <strong>Rs.182,400</strong></span>
+                        <span>Month: <strong>Rs.4,572,000</strong></span>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="paymentTable">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Passenger</th>
+                                <th>Bus</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentTableBody">
+                            <!-- Rendered by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================
+            PAGE: SETTINGS
+            ============================================ -->
+            <div class="page-content" id="page-settings">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h2>Settings</h2>
+                        <p>Manage system settings and preferences</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-globe"></i> General Settings</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>Platform Name</label>
+                                <input type="text" value="BusTracker" class="settings-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Default Currency</label>
+                                <select class="settings-input">
+                                    <option selected>PKR - Pakistani Rupee</option>
+                                    <option>USD - US Dollar</option>
+                                    <option>EUR - Euro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Zone</label>
+                                <select class="settings-input">
+                                    <option selected>Asia/Karachi (GMT+5)</option>
+                                    <option>Asia/Dubai (GMT+4)</option>
+                                    <option>Europe/London (GMT+0)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-credit-card"></i> Payment Settings</h3>
+                        <div class="settings-form">
+                            <div class="form-group toggle-group">
+                                <label>Enable JazzCash</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Enable Easypaisa</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Enable Credit/Debit Cards</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Enable Cash Payment</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
+                        <div class="settings-form">
+                            <div class="form-group toggle-group">
+                                <label>Email Notifications</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>SMS Alerts</label>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Push Notifications</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-user-shield"></i> Security</h3>
+                        <div class="settings-form">
+                            <div class="form-group toggle-group">
+                                <label>Two-Factor Authentication</label>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Session Timeout (30 min)</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <button class="btn-primary" style="width:auto;padding:10px 24px;margin-top:8px;">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================
+    MODALS
+    ============================================ -->
+
+    <!-- Add Bus Modal -->
+    <div class="modal" id="addBusModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Bus</h2>
+                <button class="modal-close" onclick="closeModal('addBusModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addBusForm" onsubmit="addBus(event)">
+                    <div class="form-group">
+                        <label>Bus Name</label>
+                        <input type="text" required placeholder="e.g., Green Line">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select required>
+                                <option value="government">Government Bus</option>
+                                <option value="private">Local Private Bus</option>
+                                <option value="intercity">Intercity Coach</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Capacity</label>
+                            <input type="number" required placeholder="60">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Route</label>
+                        <input type="text" required placeholder="e.g., Gulshan → Saddar">
+                    </div>
+                    <div class="form-group">
+                        <label>Driver Assignment</label>
+                        <select>
+                            <option value="">Select Driver</option>
+                            <option>Muhammad Ali</option>
+                            <option>Usman Khan</option>
+                            <option>Ahmed Raza</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Bus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Driver Modal -->
+    <div class="modal" id="addDriverModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Driver</h2>
+                <button class="modal-close" onclick="closeModal('addDriverModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addDriverForm" onsubmit="addDriver(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required placeholder="e.g., Ahmed Raza">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employee ID</label>
+                            <input type="text" required placeholder="e.g., DRV-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" required placeholder="+92 300 1234567">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Assigned Bus</label>
+                        <select>
+                            <option value="">Select Bus</option>
+                            <option>Green Line</option>
+                            <option>City Express</option>
+                            <option>Red Line</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Driver</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Route Modal -->
+    <div class="modal" id="addRouteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Route</h2>
+                <button class="modal-close" onclick="closeModal('addRouteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addRouteForm" onsubmit="addRoute(event)">
+                    <div class="form-group">
+                        <label>Route Name</label>
+                        <input type="text" required placeholder="e.g., Green Line">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Point</label>
+                        <input type="text" required placeholder="e.g., Clifton">
+                    </div>
+                    <div class="form-group">
+                        <label>End Point</label>
+                        <input type="text" required placeholder="e.g., Saddar">
+                    </div>
+                    <div class="form-group">
+                        <label>Stops (comma separated)</label>
+                        <input type="text" required placeholder="e.g., Clifton, Zamzama, Tariq Road, Saddar">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Schedule</label>
+                            <input type="text" placeholder="6:00 AM - 10:00 PM">
+                        </div>
+                        <div class="form-group">
+                            <label>Frequency</label>
+                            <input type="text" placeholder="15 min">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Create Route</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="js/admin.js"></script>
+</body>
+</html>

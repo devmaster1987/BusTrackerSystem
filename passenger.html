@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusTracker - Passenger App</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/passenger.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Mobile App Container -->
+    <div class="app-container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-top">
+                <div>
+                    <div class="greeting">Good Morning 👋</div>
+                    <div class="user-name">Ahmed Raza</div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="notifBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="icon-btn" id="profileBtn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Where are you going?" />
+                </div>
+                <button class="filter-btn">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="quick-action" data-page="nearby">
+                    <div class="qa-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                    <span>Nearby</span>
+                </button>
+                <button class="quick-action" data-page="routes">
+                    <div class="qa-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <span>Routes</span>
+                </button>
+                <button class="quick-action" data-page="tickets">
+                    <div class="qa-icon">
+                        <i class="fas fa-ticket"></i>
+                    </div>
+                    <span>Tickets</span>
+                </button>
+                <button class="quick-action" data-page="history">
+                    <div class="qa-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <span>History</span>
+                </button>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2>Available Buses</h2>
+                <button class="see-all">See All</button>
+            </div>
+
+            <!-- Bus List -->
+            <div class="bus-list" id="busList">
+                <!-- Buses will be rendered here by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-page="search">
+                <i class="fas fa-search"></i>
+                <span>Search</span>
+            </button>
+            <button class="nav-item" data-page="tickets">
+                <i class="fas fa-ticket"></i>
+                <span>My Tickets</span>
+            </button>
+            <button class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ============================================
+    MODALS
+    ============================================ -->
+
+    <!-- Bus Details Modal -->
+    <div class="modal" id="busDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeDetailModal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 id="modalBusName">Bus Name</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+          <!-- GPS Tracking in Bus Details -->
+<div class="gps-tracking-section">
+    <h4><i class="fas fa-satellite"></i> Live Location</h4>
+    <div class="gps-mini-map" id="miniMap">
+        <div class="mini-map-placeholder">
+            <div class="bus-marker-mini">
+                <i class="fas fa-bus"></i>
+            </div>
+            <div class="route-line"></div>
+            <div class="stop-marker start">
+                <i class="fas fa-circle"></i>
+                <span>Start</span>
+            </div>
+            <div class="stop-marker end">
+                <i class="fas fa-circle"></i>
+                <span>End</span>
+            </div>
+        </div>
+    </div>
+    <div class="gps-info">
+        <div class="info-item">
+            <span class="label">ETA</span>
+            <span class="value" id="gpsEta">8 min</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Distance</span>
+            <span class="value" id="gpsDistance">3.2 km</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Speed</span>
+            <span class="value" id="gpsSpeed">32 km/h</span>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeBookingModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Book Ticket</h2>
+            </div>
+            <div class="modal-body" id="bookingBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closePaymentModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Payment</h2>
+            </div>
+            <div class="modal-body" id="paymentBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Booking Confirmed!</h2>
+            <p>Your ticket has been booked successfully.</p>
+            <div class="qr-code">
+                <i class="fas fa-qrcode"></i>
+                <span>QR-2026-001</span>
+            </div>
+            <button class="btn-primary" id="viewTicketBtn">View My Tickets</button>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="js/passenger.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/gps-tracker.js"></script>
+</body>
+</html>

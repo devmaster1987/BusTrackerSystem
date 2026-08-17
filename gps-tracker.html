@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live GPS Tracking - BusTracker</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .gps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gps-header {
+            background: linear-gradient(135deg, #0f4c81 0%, #1a7a5a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .gps-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        
+        .gps-header p {
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        .gps-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            display: inline-flex;
+        }
+        
+        .gps-status .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .gps-status .dot.active {
+            background: #2ecc71;
+        }
+        
+        .gps-status .dot.inactive {
+            background: #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .gps-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Map Container */
+        .map-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            min-height: 500px;
+            position: relative;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 460px;
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0f8f0 100%);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-placeholder .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .map-placeholder .bus-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #1a7a5a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 20px rgba(26,122,90,0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .map-placeholder .bus-marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .map-placeholder .bus-marker .label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        
+        .map-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 20;
+        }
+        
+        .map-controls button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .map-controls button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Bus List Panel */
+        .bus-list-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-height: 560px;
+            overflow-y: auto;
+        }
+        
+        .bus-list-panel h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bus-list-panel h3 span {
+            font-size: 12px;
+            font-weight: 400;
+            color: #6b7280;
+        }
+        
+        .bus-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .bus-item:hover {
+            background: #f3f4f6;
+            transform: translateX(4px);
+        }
+        
+        .bus-item.active {
+            border-left-color: #2ecc71;
+            background: #f0fdf4;
+        }
+        
+        .bus-item .bus-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f4c81, #1a7a5a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .bus-item .bus-info {
+            flex: 1;
+        }
+        
+        .bus-item .bus-info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .bus-item .bus-info .details {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .bus-item .bus-status {
+            text-align: right;
+        }
+        
+        .bus-item .bus-status .eta {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a7a5a;
+        }
+        
+        .bus-item .bus-status .passengers {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        
+        .status-dot.active { background: #2ecc71; }
+        .status-dot.inactive { background: #ef4444; }
+        .status-dot.maintenance { background: #f59e0b; }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .gps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                min-height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .gps-header h1 {
+                font-size: 22px;
+            }
+        }
+        
+        /* Scrollbar */
+        .bus-list-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .bus-list-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .bus-list-panel::-webkit-scrollbar-thumb {
+            background: #1a7a5a;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gps-container">
+        <!-- Header -->
+        <div class="gps-header">
+            <h1><i class="fas fa-satellite"></i> Live GPS Tracking</h1>
+            <p>Real-time location tracking of all buses in the fleet</p>
+            <div class="gps-status">
+                <span class="dot active" id="gpsDot"></span>
+                <span id="gpsStatusText">Tracking Active</span>
+                <span style="margin-left:12px;opacity:0.7;" id="busCount">0 buses online</span>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="gps-grid">
+            <!-- Map -->
+            <div class="map-container">
+                <div class="map-placeholder" id="mapPlaceholder">
+                    <div class="grid-overlay"></div>
+                    
+                    <!-- Bus markers will be added here dynamically -->
+                    <div id="busMarkers"></div>
+                    
+                    <!-- Map Controls -->
+                    <div class="map-controls">
+                        <button onclick="zoomIn()" title="Zoom In">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button onclick="zoomOut()" title="Zoom Out">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button onclick="resetMap()" title="Reset View">
+                            <i class="fas fa-home"></i>
+                        </button>
+                        <button onclick="refreshLocation()" title="Refresh">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Map Legend -->
+                    <div style="position:absolute;bottom:20px;left:20px;background:white;padding:12px 16px;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.1);font-size:12px;z-index:15;display:flex;gap:16px;">
+                        <span><span class="status-dot active"></span> Active</span>
+                        <span><span class="status-dot maintenance"></span> In Transit</span>
+                        <span><span class="status-dot inactive"></span> Stopped</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bus List -->
+            <div class="bus-list-panel">
+                <h3>
+                    <span><i class="fas fa-bus"></i> Live Buses</span>
+                    <span id="onlineCount">0 online</span>
+                </h3>
+                <div id="busList">
+                    <!-- Bus items will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GPS Tracker JavaScript -->
+    <script src="js/gps-tracker.js"></script>
+    
+    <script>
+        // ============================================
+        // GPS TRACKING UI CONTROLLER
+        // ============================================
+        class GPSTrackingUI {
+            constructor() {
+                this.map = document.getElementById('mapPlaceholder');
+                this.busMarkers = document.getElementById('busMarkers');
+                this.busList = document.getElementById('busList');
+                this.gpsDot = document.getElementById('gpsDot');
+                this.gpsStatusText = document.getElementById('gpsStatusText');
+                this.busCount = document.getElementById('busCount');
+                this.onlineCount = document.getElementById('onlineCount');
+                
+                this.zoomLevel = 1;
+                this.selectedBus = null;
+                this.markers = {};
+                
+                this.init();
+            }
+            
+            init() {
+                // Start GPS tracking
+                if (typeof gpsTracker !== 'undefined') {
+                    gpsTracker.startTracking();
+                    
+                    // Add listener for updates
+                    gpsTracker.addListener((event, data) => {
+                        if (event === 'simulationUpdate' || event === 'locationUpdate') {
+                            this.updateUI(data);
+                        }
+                    });
+                    
+                    // Update UI every 2 seconds
+                    setInterval(() => {
+                        this.updateUI(gpsTracker.getAllBusLocations());
+                    }, 2000);
+                }
+                
+                console.log('📍 GPS Tracking UI Initialized');
+            }
+            
+            updateUI(locations) {
+                if (!locations) return;
+                
+                const busNames = Object.keys(locations);
+                const onlineBuses = busNames.filter(name => 
+                    locations[name].status === 'active'
+                );
+                
+                // Update status
+                this.busCount.textContent = `${onlineBuses.length} buses online`;
+                this.onlineCount.textContent = `${onlineBuses.length} online`;
+                
+                // Update markers
+                this.updateMarkers(locations);
+                
+                // Update bus list
+                this.updateBusList(locations);
+            }
+            
+            updateMarkers(locations) {
+                // Clear existing markers
+                this.busMarkers.innerHTML = '';
+                
+                // Get map dimensions
+                const rect = this.map.getBoundingClientRect();
+                const mapWidth = rect.width - 40;
+                const mapHeight = rect.height - 40;
+                
+                // Center of Karachi
+                const centerLat = 24.8607;
+                const centerLng = 67.0011;
+                const range = 0.05;
+                
+                Object.keys(locations).forEach((busName, index) => {
+                    const bus = locations[busName];
+                    
+                    // Calculate position on map
+                    const x = ((bus.lng - (centerLng - range)) / (range * 2)) * mapWidth;
+                    const y = ((bus.lat - (centerLat - range)) / (range * 2)) * mapHeight;
+                    
+                    // Create marker
+                    const marker = document.createElement('div');
+                    marker.className = 'bus-marker';
+                    marker.style.left = `${x - 20}px`;
+                    marker.style.top = `${y - 20}px`;
+                    marker.style.background = bus.status === 'active' ? '#1a7a5a' : '#ef4444';
+                    marker.style.border = bus.status === 'active' ? '3px solid #2ecc71' : '3px solid #ef4444';
+                    
+                    marker.innerHTML = `
+                        <i class="fas fa-bus"></i>
+                        <span class="label">${busName}</span>
+                    `;
+                    
+                    marker.onclick = () => this.selectBus(busName);
+                    
+                    this.busMarkers.appendChild(marker);
+                    
+                    // Store reference
+                    this.markers[busName] = marker;
+                });
+            }
+            
+            updateBusList(locations) {
+                let html = '';
+                const sortedBuses = Object.keys(locations).sort((a, b) => {
+                    return locations[a].status === 'active' ? -1 : 1;
+                });
+                
+                sortedBuses.forEach(busName => {
+                    const bus = locations[busName];
+                    const isActive = bus.status === 'active';
+                    const isSelected = this.selectedBus === busName;
+                    
+                    html += `
+                        <div class="bus-item ${isActive ? 'active' : ''} ${isSelected ? 'selected' : ''}" 
+                             onclick="gpsUI.selectBus('${busName}')"
+                             style="${isSelected ? 'border-left-color: #1a7a5a; background: #f0fdf4;' : ''}">
+                            <div class="bus-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="bus-info">
+                                <div class="name">${busName}</div>
+                                <div class="details">
+                                    <span class="status-dot ${isActive ? 'active' : 'inactive'}"></span>
+                                    ${isActive ? 'Active' : 'Inactive'}
+                                    • ${bus.passengers || 0} passengers
+                                </div>
+                            </div>
+                            <div class="bus-status">
+                                <div class="eta">${Math.floor(20 + Math.random() * 30)} min</div>
+                                <div class="passengers">${bus.speed ? Math.round(bus.speed) : 0} km/h</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                this.busList.innerHTML = html;
+            }
+            
+            selectBus(busName) {
+                this.selectedBus = busName;
+                this.updateUI(gpsTracker.getAllBusLocations());
+                
+                // Highlight marker
+                Object.keys(this.markers).forEach(name => {
+                    const marker = this.markers[name];
+                    if (name === busName) {
+                        marker.style.transform = 'scale(1.3)';
+                        marker.style.boxShadow = '0 0 30px rgba(26,122,90,0.6)';
+                    } else {
+                        marker.style.transform = 'scale(1)';
+                        marker.style.boxShadow = 'none';
+                    }
+                });
+                
+                // Show bus details
+                const bus = gpsTracker.getBusLocation(busName);
+                if (bus) {
+                    console.log(`📍 Selected Bus: ${busName}`, bus);
+                }
+            }
+        }
+        
+        // ============================================
+        // MAP CONTROLS
+        // ============================================
+        function zoomIn() {
+            const map = document.getElementById('mapPlaceholder');
+            const scale = 1.2;
+            map.style.transform = `scale(${scale})`;
+            map.style.transition = 'transform 0.3s ease';
+        }
+        
+        function zoomOut() {
+            const map = document.getElementById('mapPlaceholder');
+            map.style.transform = 'scale(1)';
+            map.style.transition = 'transform 0.3s ease';
+        }
+        
+        function resetMap() {
+            const map = document.getElementById('mapPlaceholder');
+            map.style.transform = 'scale(1)';
+            map.scrollTop = 0;
+            map.scrollLeft = 0;
+        }
+        
+        function refreshLocation() {
+            console.log('🔄 Refreshing GPS data...');
+            if (typeof gpsTracker !== 'undefined') {
+                gpsTracker.initializeSampleData();
+                gpsUI.updateUI(gpsTracker.getAllBusLocations());
+                const dot = document.getElementById('gpsDot');
+                dot.style.animation = 'none';
+                setTimeout(() => {
+                    dot.style.animation = 'pulse 2s infinite';
+                }, 100);
+            }
+        }
+        
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        let gpsUI;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            gpsUI = new GPSTrackingUI();
+            
+            // Expose for global access
+            window.gpsUI = gpsUI;
+            window.zoomIn = zoomIn;
+            window.zoomOut = zoomOut;
+            window.resetMap = resetMap;
+            window.refreshLocation = refreshLocation;
+            
+            console.log('✅ GPS Tracking UI Ready');
+        });
+    </script>
+</body>
+</html>
