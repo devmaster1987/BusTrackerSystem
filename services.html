@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - BusTracker</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <span class="logo-text">BusTracker</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="btn-passenger" onclick="window.location.href='passenger.html'">
+                    <i class="fas fa-user"></i> Passenger
+                </button>
+                <button class="btn-driver" onclick="window.location.href='driver.html'">
+                    <i class="fas fa-user-circle"></i> Driver
+                </button>
+                <button class="btn-admin" onclick="window.location.href='admin.html'">
+                    <i class="fas fa-user-shield"></i> Admin
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header-section">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>Comprehensive transportation solutions for everyone</p>
+        </div>
+    </section>
+
+    <!-- Main Services -->
+    <section class="services-main">
+        <div class="container">
+            <div class="services-intro">
+                <h2>What We Offer</h2>
+                <p>BusTracker provides a complete ecosystem of transportation services designed to make commuting simple, safe, and efficient for passengers, drivers, and transport companies.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1: Passenger Transport -->
+                <div class="service-card large">
+                    <div class="service-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Passenger Transport</h3>
+                        <p>Book buses, track in real-time, and travel comfortably across the city and beyond.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Real-time bus tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Digital ticket booking</li>
+                            <li><i class="fas fa-check-circle"></i> Multiple payment options</li>
+                            <li><i class="fas fa-check-circle"></i> QR code tickets</li>
+                            <li><i class="fas fa-check-circle"></i> ETA notifications</li>
+                        </ul>
+                        <button class="btn-primary" onclick="window.location.href='passenger.html'">
+                            <i class="fas fa-arrow-right"></i> Book a Bus
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Service 2: Government Buses -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Government Buses</h3>
+                        <p>Track government-operated buses with real-time GPS and schedule information.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Official government routes</li>
+                            <li><i class="fas fa-check-circle"></i> Subsidized fares</li>
+                            <li><i class="fas fa-check-circle"></i> Priority seating</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 3: Private Buses -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Private Buses</h3>
+                        <p>Find and book private local buses with premium comfort and convenience.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Premium comfort</li>
+                            <li><i class="fas fa-check-circle"></i> Flexible schedules</li>
+                            <li><i class="fas fa-check-circle"></i> Competitive pricing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 4: Intercity Coaches -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Intercity Coaches</h3>
+                        <p>Travel between cities with comfortable coaches and reliable schedules.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Air-conditioned coaches</li>
+                            <li><i class="fas fa-check-circle"></i> Multiple stops</li>
+                            <li><i class="fas fa-check-circle"></i> Restroom facilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Service 5: Driver Services -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Driver Services</h3>
+                        <p>Complete tools and support for professional bus drivers.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Route management</li>
+                            <li><i class="fas fa-check-circle"></i> Passenger counting</li>
+                            <li><i class="fas fa-check-circle"></i> QR ticket scanner</li>
+                            <li><i class="fas fa-check-circle"></i> Trip history</li>
+                        </ul>
+                        <button class="btn-primary" onclick="window.location.href='driver.html'">
+                            <i class="fas fa-arrow-right"></i> Driver Login
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Service 6: Admin Management -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Admin Management</h3>
+                        <p>Complete fleet and operations management dashboard.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Fleet management</li>
+                            <li><i class="fas fa-check-circle"></i> Driver assignment</li>
+                            <li><i class="fas fa-check-circle"></i> Real-time monitoring</li>
+                            <li><i class="fas fa-check-circle"></i> Analytics & reports</li>
+                        </ul>
+                        <button class="btn-primary" onclick="window.location.href='admin.html'">
+                            <i class="fas fa-arrow-right"></i> Admin Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bus Categories -->
+    <section class="bus-categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Bus Categories</h2>
+                <p>Choose from our wide range of bus services</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h3>Government Bus</h3>
+                    <p>Official government-operated buses with subsidized fares and reliable service.</p>
+                    <div class="category-tags">
+                        <span class="tag">Subsidized</span>
+                        <span class="tag">Reliable</span>
+                        <span class="tag">Safe</span>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bus-alt"></i>
+                    </div>
+                    <h3>Local Private Bus</h3>
+                    <p>Private local buses offering premium comfort and flexible schedules.</p>
+                    <div class="category-tags">
+                        <span class="tag">Premium</span>
+                        <span class="tag">Flexible</span>
+                        <span class="tag">Comfort</span>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h3>Intercity Coach</h3>
+                    <p>Comfortable coaches for intercity travel with modern amenities.</p>
+                    <div class="category-tags">
+                        <span class="tag">AC</span>
+                        <span class="tag">Long Distance</span>
+                        <span class="tag">Premium</span>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shuttle-van"></i>
+                    </div>
+                    <h3>Shuttle Service</h3>
+                    <p>Convenient shuttle services for universities, offices, and events.</p>
+                    <div class="category-tags">
+                        <span class="tag">Campus</span>
+                        <span class="tag">Corporate</span>
+                        <span class="tag">Events</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pricing Plans</h2>
+                <p>Affordable transportation for every budget</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Standard</h3>
+                        <div class="price">Rs.80<span>/trip</span></div>
+                        <p>Perfect for daily commuters</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Real-time tracking</li>
+                        <li><i class="fas fa-check"></i> Digital tickets</li>
+                        <li><i class="fas fa-check"></i> Basic support</li>
+                        <li><i class="fas fa-check"></i> Cash & digital payments</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='passenger.html'">Get Started</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">Rs.150<span>/trip</span></div>
+                        <p>Enhanced comfort and features</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> All Standard features</li>
+                        <li><i class="fas fa-check"></i> Priority booking</li>
+                        <li><i class="fas fa-check"></i> Premium seating</li>
+                        <li><i class="fas fa-check"></i> 24/7 priority support</li>
+                        <li><i class="fas fa-check"></i> Early access to new routes</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='passenger.html'">Get Started</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Business</h3>
+                        <div class="price">Custom</div>
+                        <p>For transport companies</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Fleet management</li>
+                        <li><i class="fas fa-check"></i> Driver management</li>
+                        <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                        <li><i class="fas fa-check"></i> Custom branding</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='contact.html'">Contact Us</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Section -->
+    <section class="partnership-section">
+        <div class="container">
+            <div class="partnership-content">
+                <div class="partnership-text">
+                    <h2>Partner With Us</h2>
+                    <p>Join the BusTracker network and grow your transportation business.</p>
+                    <ul class="partnership-benefits">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Increase Visibility</h4>
+                                <p>Get your buses listed on our platform and reach thousands of daily passengers.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Digital Ticketing</h4>
+                                <p>Enable seamless digital ticket booking and reduce cash handling.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Real-Time Tracking</h4>
+                                <p>Equip your fleet with GPS tracking and improve operational efficiency.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Analytics & Insights</h4>
+                                <p>Get detailed reports on passenger behavior, peak hours, and revenue.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn-primary" onclick="window.location.href='contact.html'">
+                        <i class="fas fa-handshake"></i> Become a Partner
+                    </button>
+                </div>
+                <div class="partnership-image">
+                    <div class="partnership-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">45+</span>
+                            <span class="stat-label">Partner Buses</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">12+</span>
+                            <span class="stat-label">Routes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2.8K+</span>
+                            <span class="stat-label">Daily Riders</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Users Say</h2>
+                <p>Real stories from real passengers and partners</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"BusTracker has completely changed my daily commute. I can track my bus in real-time and never miss it again!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div>
+                            <h4>Ahmed Raza</h4>
+                            <span>Daily Commuter</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"The digital ticketing system is amazing. I no longer need to carry cash and the QR code makes boarding so easy."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div>
+                            <h4>Sara Khan</h4>
+                            <span>Frequent Traveler</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"As a transport company, BusTracker has helped us optimize our routes and increase passenger satisfaction significantly."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">U</div>
+                        <div>
+                            <h4>Usman Ali</h4>
+                            <span>Bus Operator</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Experience Smart Transport?</h2>
+                <p>Join thousands of happy passengers using BusTracker every day.</p>
+                <button class="btn-cta" onclick="window.location.href='passenger.html'">
+                    Get Started Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <span>BusTracker</span>
+                    <p>Smart public transport for everyone.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <a href="mailto:info@bustracker.com">info@bustracker.com</a>
+                    <a href="tel:+923001234567">+92 300 1234567</a>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 BusTracker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

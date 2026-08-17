@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusTracker - Driver App</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/driver.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h2>Driver Login</h2>
+                    <p>Sign in to start your trip</p>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Employee ID</label>
+                        <input type="text" id="employeeId" placeholder="e.g., DRV-001" required>
+                        <i class="fas fa-id-card input-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                <div class="login-footer">
+                    <span>Driver ID: DRV-001</span>
+                    <span>Password: driver123</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="driverApp" class="app-container" style="display:none;">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-top">
+                <div>
+                    <div class="greeting">Welcome back,</div>
+                    <div class="user-name" id="driverName">Muhammad Ali</div>
+                    <div class="driver-id">Driver ID: <span id="driverId">DRV-001</span></div>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-dot active"></span>
+                    <span class="status-text">Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Today's Route Card -->
+            <div class="route-card">
+                <div class="route-card-header">
+                    <div>
+                        <div class="route-label">Today's Route</div>
+                        <div class="route-name" id="routeName">Green Line</div>
+                        <div class="route-path" id="routePath">Clifton → Saddar</div>
+                    </div>
+                    <div class="passenger-count-large">
+                        <div class="count-number" id="passengerCount">42</div>
+                        <div class="count-label">Passengers</div>
+                    </div>
+                </div>
+                <div class="route-status">
+                    <div class="status-info">
+                        <span class="status-dot active"></span>
+                        <span class="status-label">Running</span>
+                    </div>
+                    <div class="next-stop">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Next stop: <strong id="nextStop">Tariq Road</strong></span>
+                    </div>
+                    <button class="btn-end-trip" onclick="endTrip()">
+                        <i class="fas fa-stop-circle"></i> End Trip
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Actions Grid -->
+            <div class="actions-grid">
+                <button class="action-card" onclick="showRouteMap()">
+                    <div class="action-icon blue">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <span>Route Map</span>
+                </button>
+                <button class="action-card" onclick="showPassengers()">
+                    <div class="action-icon green">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span>Passengers</span>
+                </button>
+                <button class="action-card" onclick="openScanner()">
+                    <div class="action-icon purple">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <span>Scan QR</span>
+                </button>
+                <button class="action-card" onclick="showTripHistory()">
+                    <div class="action-icon orange">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <span>History</span>
+                </button>
+            </div>
+
+            <!-- Trip History -->
+            <div class="history-section">
+                <div class="section-header">
+                    <h3>Trip History</h3>
+                    <button class="see-all">View All</button>
+                </div>
+                <div class="history-list" id="tripHistory">
+                    <!-- Rendered by JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-item" data-page="route">
+                <i class="fas fa-map"></i>
+                <span>Route</span>
+            </button>
+            <button class="nav-item" data-page="scanner">
+                <i class="fas fa-qrcode"></i>
+                <span>Scanner</span>
+            </button>
+            <button class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ============================================
+    MODALS
+    ============================================ -->
+
+    <!-- Route Map Modal -->
+    <div class="modal" id="routeMapModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('routeMapModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Route Map</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                   <!-- GPS Status in Driver App -->
+<div class="gps-driver-status">
+    <div class="gps-status-card">
+        <div class="gps-header">
+            <i class="fas fa-satellite-dish"></i>
+            <span>GPS Status</span>
+            <span class="status-badge" id="driverGpsStatus">
+                <span class="dot active"></span> Online
+            </span>
+        </div>
+        <div class="gps-coordinates">
+            <div class="coord">
+                <span>Latitude</span>
+                <span id="driverLat">24.8607</span>
+            </div>
+            <div class="coord">
+                <span>Longitude</span>
+                <span id="driverLng">67.0011</span>
+            </div>
+        </div>
+        <div class="gps-actions">
+            <button onclick="toggleGPS()" class="btn-gps">
+                <i class="fas fa-play"></i> Start Tracking
+            </button>
+        </div>
+    </div>
+</div>
+                </div>
+                <div class="route-stops">
+                    <h4>Route Stops</h4>
+                    <div class="stop-list">
+                        <div class="stop-item completed">
+                            <span class="stop-number">1</span>
+                            <span class="stop-name">Clifton</span>
+                            <span class="stop-status"><i class="fas fa-check-circle"></i> Completed</span>
+                        </div>
+                        <div class="stop-item current">
+                            <span class="stop-number">2</span>
+                            <span class="stop-name">Zamzama</span>
+                            <span class="stop-status"><i class="fas fa-spinner fa-spin"></i> Current</span>
+                        </div>
+                        <div class="stop-item upcoming">
+                            <span class="stop-number">3</span>
+                            <span class="stop-name">Tariq Road</span>
+                            <span class="stop-status">Upcoming</span>
+                        </div>
+                        <div class="stop-item upcoming">
+                            <span class="stop-number">4</span>
+                            <span class="stop-name">Saddar</span>
+                            <span class="stop-status">Upcoming</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div class="modal" id="scannerModal">
+        <div class="modal-content scanner-modal">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('scannerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Scan QR Ticket</h2>
+            </div>
+            <div class="modal-body">
+                <div class="scanner-container">
+                    <div class="scanner-frame">
+                        <div class="scanner-corner tl"></div>
+                        <div class="scanner-corner tr"></div>
+                        <div class="scanner-corner bl"></div>
+                        <div class="scanner-corner br"></div>
+                        <div class="scanner-line"></div>
+                        <i class="fas fa-qrcode scanner-icon"></i>
+                    </div>
+                    <p class="scanner-text">Position QR code within the frame</p>
+                </div>
+                
+                <!-- QR Result (hidden by default) -->
+                <div class="qr-result" id="qrResult" style="display:none;">
+                    <div class="result-success">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4>Ticket Verified!</h4>
+                            <p>Passenger: <strong>Ahmed Raza</strong></p>
+                            <p>Bus: <strong>Green Line</strong></p>
+                            <p>Seat: <strong>A12</strong></p>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="resetScanner()">
+                        Scan Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Passengers Modal -->
+    <div class="modal" id="passengersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('passengersModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Passengers <span class="passenger-total" id="modalPassengerCount">42</span></h2>
+            </div>
+            <div class="modal-body">
+                <div class="passenger-stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="statTotal">42</div>
+                        <div class="stat-label">Total Passengers</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="statCapacity">60</div>
+                        <div class="stat-label">Capacity</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="statAvailable">18</div>
+                        <div class="stat-label">Available Seats</div>
+                    </div>
+                </div>
+                <div class="passenger-list" id="passengerList">
+                    <!-- Rendered by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trip History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('historyModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Trip History</h2>
+            </div>
+            <div class="modal-body">
+                <div class="history-full-list" id="historyFullList">
+                    <!-- Rendered by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="js/driver.js"></script>
+</body>
+</html>
